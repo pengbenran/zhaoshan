@@ -1,10 +1,36 @@
 <template>
   <div class="presen_root">
-    <div class="presen_content">
-      <div class="presen_list" v-for="(item,index) in presenImg" :key="key" :index="index" @click="godetail(index)">
-        <div class="preImg" :style="{width:imageWidth,height:imageWidth}">
-          <image :src="item.Img" alt=""/>
-        </div>  
+    <div class="informationList" @click="jumppresentationdetail">
+      <div class="informationListImg">
+        <image src="https://shop.guqinet.com/html/images/zs/banner.jpg"></image>
+      </div>
+      <div class="title">
+        这是一片资讯文章
+      </div>
+      <div class="time">
+        2018-08-29
+      </div>
+    </div>
+     <div class="informationList" @click="jumppresentationdetail">
+      <div class="informationListImg">
+        <image src="https://shop.guqinet.com/html/images/zs/banner.jpg"></image>
+      </div>
+      <div class="title">
+        这是一片资讯文章
+      </div>
+      <div class="time">
+        2018-08-29
+      </div>
+    </div>
+     <div class="informationList" @click="jumppresentationdetail">
+      <div class="informationListImg">
+        <image src="https://shop.guqinet.com/html/images/zs/banner.jpg"></image>
+      </div>
+      <div class="title">
+        这是一片资讯文章
+      </div>
+      <div class="time">
+        2018-08-29
       </div>
     </div>
   </div>
@@ -16,31 +42,7 @@ export default {
     return {
       imageWidth:'',
       presenImg: [
-        {
-          Img: "https://shop.guqinet.com/html/images/zs/fc.png",
-          urlImg: "https://shop.guqinet.com/html/images/zs/fc1.png",
-          ewmImg: "https://shop.guqinet.com/html/images/zs/hourse.png"
-        },
-        {
-          Img: "https://shop.guqinet.com/html/images/zs/yq.png",
-          urlImg: "https://shop.guqinet.com/html/images/zs/yqd.png",
-          ewmImg: "https://shop.guqinet.com/html/images/zs/paint.png"
-        },
-        {
-          Img: "https://shop.guqinet.com/html/images/zs/sm.png",
-          urlImg: "https://shop.guqinet.com/html/images/zs/sm1.png",
-          ewmImg: "https://shop.guqinet.com/html/images/zs/Digital.png"
-        },
-        {
-          Img: "https://shop.guqinet.com/html/images/zs/qc.png",
-          urlImg: "https://shop.guqinet.com/html/images/zs/qc1.png",
-          ewmImg: "https://shop.guqinet.com/html/images/zs/equipment.png"
-        },
-        {
-          Img: "https://shop.guqinet.com/html/images/zs/mr.png",
-          urlImg: "https://shop.guqinet.com/html/images/zs/mr1.png",
-          ewmImg: "https://shop.guqinet.com/html/images/zs/Beauty.png"
-        }
+        
       ]
     };
   },
@@ -53,14 +55,9 @@ export default {
     
   },
   methods: {
-    godetail: function(index) {
-      var that = this;
+    jumppresentationdetail:function(){
       wx.navigateTo({
-        url:
-          "../presentationdetail/main?urlImg=" +
-          that.presenImg[index].urlImg +
-          "&ewmImg=" +
-          that.presenImg[index].ewmImg
+        url:'../presentationdetail/main'
       });
     }
   },
@@ -79,21 +76,33 @@ export default {
 <style scoped>
 image {
   width: 100%;
-  height: 100%;
   display: block;
 }
-.presen_content {
+.presen_root {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  background: #f3f3f3; 
+  min-height: 100vh;
 }
-.preImg {
- margin: 0 auto;
-  overflow: hidden;
+.informationList{
+  background: #fff;
+  width: 95%;
+  margin: 0 auto; 
+  margin-top: 20rpx;
 }
-.presen_list {
-  width: 50%;
-  margin-bottom: 10px;
+.informationListImg{
+  width: 100%;
+
+}
+.title{
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 0.9em;
+}
+.time{
+  text-align: right;
+  padding-right:20rpx;
+  color: #ccc;
+  height: 60rpx;
+  line-height: 60rpx;
 }
 </style>

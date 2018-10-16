@@ -7,10 +7,10 @@
 		"minified": true,
 		"newFeature": true
 	},
-	"miniprogramRoot": "./dist/",
+	"miniprogramRoot": "dist/",
 	"compileType": "miniprogram",
-	"appid": "wx60e9747d72463df2",
-	"projectname": "zs",
+	"appid": "wxa6d94a7999b27d7e",
+	"projectname": "Zhaoshang",
 	"condition": {
 		"search": {
 			"current": -1,

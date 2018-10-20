@@ -92,7 +92,16 @@ export default {
       iLook:[]
     }
   },
-
+ //下拉刷新
+  onPullDownRefresh: function () {
+    wx.showNavigationBarLoading() //在标题中显示加载
+     //加载初始化数据
+    this.onloads();   
+    setTimeout(function () {
+      wx.hideNavigationBarLoading() //完成停止加载
+      wx.stopPullDownRefresh() //停止下拉刷新
+    }, 1500)
+  },
   components: {
     
   },
@@ -159,7 +168,7 @@ export default {
         let that=this;
         console.log(cardid, merberid)
         wx.navigateTo({
-          url: '../cardinfo/cardinfo?cardid=' + cardid + '&memberId=' + merberid,
+          url: '../cardinfo/main?cardid=' + cardid + '&memberId=' + merberid,
         })
       }
   },

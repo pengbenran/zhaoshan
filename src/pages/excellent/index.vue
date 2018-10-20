@@ -2,56 +2,50 @@
   <div class="excellent_root">
      <div class="head">
       <div class="headleft">   
-        <image src="https://shop.guqinet.com/shopimages/test/6432d492-cd16-4ab6-adb5-64f5afa02c6a.png"></image>
+        <image :src="example.picture"></image>
+        <!-- <image :src="example.logo"></image> -->
       </div>
       <div class="headright">微鑫云臻</div>     
      </div>
-     <div class="introImg">
-        <div class="introImgList">
-          <image src="/static/images/606939004297436382.jpg"></image>
-        </div>
-        <div class="introImgList">
-          <image src="/static/images/606939004297436382.jpg"></image>
-        </div>
-        <div class="introImgList">
-          <image src="/static/images/606939004297436382.jpg"></image>
-        </div>
-     </div>
-     <div class="title">
-       小程序介绍
-     </div>
-     <div class="intro">
-        一款电商类小程序。走的是清新简洁的功能风格
-     </div>
-       <div class="title">
-       功能介绍
-     </div>
-     <div class="intro">
-        一款电商类小程序。走的是清新简洁的功能风格
-     </div>
-      <div class="title">
-       小程序二维码
-     </div>
+      
+      <div>
+       <wxParse :content="article" @preview="preview" @navigate="navigate" />
+      </div>
   </div>
 </template>
 
 <script>
+import config from '../../config'
+import request from '../../utils/request'
+import wxParse from 'mpvue-wxparse'
 
 export default {
   data () {
     return {
-     
+      example:[],
+      article:''
     }
   },
 
   components: {
-    
+    wxParse
   },
 
   methods: {
     
+    async onloads(option){
+      let that=this;
+      let url='/api/investment/example'
+      let data={id:option.id}
+      const res=await request.moregets(url,data)
+      that.example=res.example
+      that.article=res.example.content
+      console.log("输出详情页内容",res)
+    }
   },
-
+  onLoad:function(option){
+   this.onloads(option)
+  },
   created () {
    
   },
@@ -66,7 +60,7 @@ export default {
 </script>
 
 <style scoped>
-
+@import url("~mpvue-wxparse/src/wxParse.css");
 image{
   width: 100%;
   /*height: 100%;*/
@@ -77,17 +71,20 @@ image{
   display: flex;
   padding: 20rpx;
   box-sizing: border-box;
+  border-bottom: 5px solid rgb(243, 243, 243);
 }
-.headleft{
-  width: 200rpx;
-  height: 200rpx;
+.headleft{ 
+  display: flex; align-items: center;
   overflow: hidden;
 }
 .headleft image{
-  height: 100%;
+  border-radius: 20rpx;
+  width: 200rpx;
+  height: 200rpx;
+  margin-right: 20rpx;
 }
 .headright{
-  flex-grow: 1;
+
   padding-top:30rpx;
   padding-left: 30rpx;
   box-sizing: border-box;

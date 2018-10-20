@@ -6,5 +6,8 @@ app.$mount()
 export default {
     config: {
       "enablePullDownRefresh": true,
+      "usingComponents": {
+        "canvasdrawer": "../../../static/Cav/canvasdrawer/canvasdrawer"
+       }
     }
   }

@@ -32,7 +32,7 @@
      </div>
 </div>
 
-<div class='infobtn' bindtap='infonext'>
+<div class='infobtn' @click='infonext'>
    <text>返回首页</text>
 </div>
   </div>
@@ -61,7 +61,8 @@ export default {
   //下拉刷新
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading() //在标题中显示加载
-    this.onLoad();
+    //初始化数据（页面传参的用户id）
+    this.onloads(this.memberIds);
     setTimeout(function () {
       wx.hideNavigationBarLoading() //完成停止加载
       wx.stopPullDownRefresh() //停止下拉刷新
@@ -99,7 +100,7 @@ export default {
 
           console.log('获得的初始化数据',res)
       }else if(res.code==1){
-        request.showSuccess('此人未创建名片','../mycard/mycard')
+        request.showSuccess('此人未创建名片','../mycard/main')
       }
     }).then(function (){
       //查看增加人气
@@ -113,7 +114,7 @@ export default {
     let url ='/api/businessCard/lookCard'
     let data = { cardId: memberId, lookMemberId: lookmemberId}
     if (!lookmemberId || lookmemberId==''){
-      request.showModels('您还没有登录','../my/my','../my/my')
+      request.showModels('您还没有登录','../index/main','../index/main')
    }else{
       request.moregets(url, data).then(function(res){
         console.log('增加人气', res)
@@ -149,10 +150,11 @@ export default {
       }
     })
   },
+
   infonext:function(){
     console.log("666")
     wx.switchTab({
-      url: '../index/index',
+      url: '../index/main',
     })
   },
    //跳转
@@ -179,21 +181,29 @@ export default {
   },
 
   onLoad: function (options) {
-    let dqmemberId = wx.getStorageSync('memberId')
+      let dqmemberId = wx.getStorageSync('memberId')
+      this.memberId=dqmemberId;
     //增加人气
-    this.setData({
-      memberId: dqmemberId,
-      memberIds: options.memberId
-    })  
+      if (options.scene == undefined) {
+   
+        this.memberIds=options.memberId;
+        }
+        else {
+         this.memberIds=decodeURIComponent(options.scene);
+        }
+
+      
   },
     onShow:function(){
     let that=this;
+    console.log("查看ID",that.memberId,that.memberIds)
     if (that.memberId == that.memberIds){
-      request.showModels('您正在查看自己的名片', '../mycard/mycard', '../my/my')
+      request.showModels('您正在查看自己的名片', '/pages/mycard/main', '/pages/index/main')
+      console.log("输出ID",that.memberId,that.memberIds)
     } else if (!that.memberId) {
-      request.showModels('请先登录', '../my/my', '../my/my')
+      request.showModels('请先登录', '/pages/index/main', '/pages/index/main')
     } else if (that.memberId == '00') {
-      request.showModels('您还没有登录', '../my/my', '../my/my')
+      request.showModels('您还没有登录', '/pages/index/main', '/pages/index/main')
     } else {
       //初始化数据（页面传参的用户id）
       that.onloads(that.memberIds);
@@ -210,7 +220,7 @@ page{background: #fff;}
 
 
 .container{padding: 30rpx;}
-.warpBox{margin-top: 40rpx;position: relative;border-radius: 15rpx;overflow: hidden;box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);}
+.warpBox{margin-top: 40rpx;position: relative;width: 100%;border-radius: 15rpx;overflow: hidden;box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);}
 .box1{z-index: 2;position: relative;display: flex;align-items: center;justify-content: center;flex-direction: column;height: 460rpx; }
 .box1 text{font-size: 32rpx;color: #8e8e8e;font-weight: 100;}
 .boxbg{position:absolute;top: 0;left: 0;width: 100%;z-index: 1}

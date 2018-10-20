@@ -111,7 +111,7 @@ export default {
         // console.log(e)
         // console.log(cardid, merberid)
         wx.navigateTo({
-          url: '../cardinfo/cardinfo?cardid=' + cardid + '&memberId=' + merberid,
+          url: '../cardinfo/main?cardid=' + cardid + '&memberId=' + merberid,
         })
       },
 

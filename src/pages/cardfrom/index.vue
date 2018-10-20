@@ -67,9 +67,7 @@ export default {
         success: function (res) {
           // success
           console.log(res)
-          that.setData({
-            address:res.address
-          })
+            that.address=res.address
         },
         fail: function () {
           // fail
@@ -79,25 +77,7 @@ export default {
         }
       })
     },
-    //定位获取所在地
-  bindaddress:function(){
-    var that = this;
-    wx.chooseLocation({
-      success: function (res) {
-        // success
-        console.log(res)
-        that.setData({
-          address:res.address
-        })
-      },
-      fail: function () {
-        // fail
-      },
-      complete: function () {
-        // complete
-      }
-    })
-  },
+
 
 //表单提交数据
   fromsub:function(s){
@@ -166,7 +146,7 @@ export default {
       let msg = request.post(url, JSON.stringify(businesscardDo))
       msg.then(function (res) { 
         if (res.code==0){
-          request.showSuccess('保存成功','../mycard/mycard')
+          request.showSuccess('保存成功','../mycard/main')
         }
       })
     }

@@ -3,7 +3,7 @@ import config from '../config'
 const  post=(url,data)=>{
     return new Promise((resolve, reject) => {
       wx.request({
-        url: api + url,
+        url: config.host + url,
         header: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -24,32 +24,42 @@ const  post=(url,data)=>{
     })
   }
   
-  //封装一个get请求
-  const gets = (url, data) => {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url:url,
-        header: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        method: 'get',
-        data: data,
-        success: res => {
-          resolve(res.data)
-        },
-      });
-    })
-  }
-  
-  
+//封装一个get请求
+const gets = (url, data) => {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url:url,
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      method: 'get',
+      data: data,
+      success: res => {
+        resolve(res.data)
+      },
+    });
+  })
+}
+
+  // 时间戳转换
+  const  timestampToTime =(timestamp)=> {
+  var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+  var Y = date.getFullYear() + '-';
+  var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+  var D = date.getDate() + ' ';
+  var h = date.getHours() + ':';
+  var m = date.getMinutes() + ':';
+  var s = date.getSeconds();
+  return Y+M+D+h+m+s;
+}
   
   //封装多个get请求
   const moregets = (url, data) => {
     return new Promise((resolve, reject) => {
       wx.request({
-        url: api + url,
+        url: config.host + url,
         header: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
         },
         method: 'get',
         data: data,
@@ -77,7 +87,7 @@ const  post=(url,data)=>{
       duration:2000
     })
     setTimeout(function(){
-      wx.redirectTo({
+      wx.switchTab({
         url: url,
       })
     }, 2000);
@@ -91,12 +101,12 @@ const  post=(url,data)=>{
       success:function(res){
         if(res.confirm){
           console.log('调用——确定')
-          wx.redirectTo({
+          wx.switchTab({
             url: url01,
           })
         } else if (res.cancel){
           console.log('调用-取消') 
-          wx.redirectTo({
+          wx.switchTab({
             url: url02,
           })
         }
@@ -120,12 +130,13 @@ const  post=(url,data)=>{
   
  const request={
     post,
-    gets,
     moregets,
+    gets,
     tip,
     showSuccess,
     showModels,
-    getImageInfo
+    getImageInfo,
+    timestampToTime
  }
 
  export default request

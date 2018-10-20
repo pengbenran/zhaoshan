@@ -31,11 +31,11 @@
   </div>
 
 <div class='warpbtn'>
-  <button class='btn' open-type='share'>给好友递名片</button>
+  <button class='btn' open-type='share' v-if="!boxbool">给好友递名片</button>
 </div>
 
 <div class='haibao' @click='shenImg'>
-  <div class='haibaobtn' @click="eventDraw">生成海报</div>
+  <div class='haibaobtn' @click="eventDraw" v-if="!boxbool">生成海报</div>
 </div>
 </div>
 
@@ -76,7 +76,7 @@ export default {
   },
 
   components: {
-    
+  
   },
   //下拉刷新
   onPullDownRefresh: function () {
@@ -87,6 +87,17 @@ export default {
       wx.stopPullDownRefresh() //停止下拉刷新
     }, 1500)
   },
+
+            //发送名片给好友
+        onShareAppMessage: function () {
+            let that=this;
+            console.log('名片分享')
+            let memberId = wx.getStorageSync('memberId');
+            return {
+            path: '/pages/cardinfo/main?memberId=' + memberId + '&cardid=' + that.userinfo.cardid,
+            }
+        },
+
 
   methods: {
       onloads:function(){
@@ -110,16 +121,11 @@ export default {
             })
         },
 
-          //发送名片给好友
-        onShareAppMessage: function () {
-            let that=this;
-            console.log('名片分享')
-            let memberId = wx.getStorageSync('memberId');
-            return {
-            path: '/pages/cardinfo/main?memberId=' + memberId + '&cardid=' + that.userinfo.cardid,
-            }
+      //关闭海报
+        guanbi:function(){
+          let that=this;
+          that.maskmodel=false
         },
-
         //跳转至名片信息提交
         tocardfrom:function(){
             wx.navigateTo({
@@ -129,9 +135,7 @@ export default {
         
           //跳转
         tonext:function(url,name){
-          
             let that=this;
-
             // let url = e.currentTarget.dataset.url; //获取跳转路径
             // let name = e.currentTarget.dataset.name; 
             let memberId = wx.getStorageSync('memberId')
@@ -139,13 +143,163 @@ export default {
             url: url + '?name=' + name + '&cardid=' + that.userinfo.cardid + '&memberId=' + memberId,
             })
         },
-       
+         //生成海报
+  eventDraw:function() {
+    //请求小程序码
+    let that=this;
+    that.maskmodel=true;
+    let url ='https://www.guqinet.com:8444/uploadZhaoshang/getShare'
+    let data = { page: 'pages/cardinfo/main', scene: wx.getStorageSync('memberId')}
+    request.gets(url, data).then(function(res){
+      console.log('kk',res);
+      wx.showLoading({
+          title: '绘制分享图片中',
+          mask: true
+        }),
+      request.getImageInfo(res).then(function(res){
+            that.painting={
+              width: 375,
+              height: 360,
+              clear: true,
+                   views: [
+                {
+                  type: 'image',
+                  url: '/static/images/cardbg.png',
+                  top: 0,
+                  left: 0,
+                  width: 375,
+                  height: 360
+                },
+                {
+                  type: 'image',
+                  url: that.face,
+                  top: 40,
+                  left: 300,
+                  width: 40,
+                  height: 40
+                },
+                {
+                  type: 'image',
+                  url:res ,
+                  top: 250,
+                  left: 270,
+                  width: 100,
+                  height: 100
+                },
+                {
+                  type: 'image',
+                  url: '/static/images/avatar_cover.png',
+                  top: 40,
+                  left: 300,
+                  width: 40,
+                  height: 40
+                },
+                {
+                  type: 'text',
+                  content: that.userinfo.cardname,
+                  fontSize: 30,
+                  color: '#666',
+                  textAlign: 'left',
+                  top: 35,
+                  left: 38,
+                },
+                {
+                  type: 'text',
+                  content: that.userinfo.departments + "  " + that.userinfo.jobs,
+                  fontSize: 14,
+                  color: '#8e8e8e',
+                  textAlign: 'left',
+                  top: 75,
+                  left: 38,
+                },
+                {
+                  type: 'text',
+                  content: that.userinfo.companys,
+                  fontSize: 14,
+                  color: '#8e8e8e',
+                  textAlign: 'left',
+                  top: 100,
+                  left: 38,
+
+                },
+                {
+                  type: 'text',
+                  content: '地址：' + that.userinfo.region,
+                  fontSize: 13,
+                  color: '#666',
+                  textAlign: 'left',
+                  top: 135,
+                  left: 38,
+
+                },
+                {
+                  type: 'text',
+                  content: '电话：' + that.userinfo.p1,
+                  fontSize: 13,
+                  color: '#666',
+                  textAlign: 'left',
+                  top: 155,
+                  left: 38,
+                },
+
+                {
+                  type: 'text',
+                  content: '获取等多人脉',
+                  fontSize: 20,
+                  color: '#666',
+                  textAlign: 'left',
+                  top: 275,
+                  left: 38,
+                },
+                {
+                  type: 'text',
+                  content: '请关注微鑫云臻',
+                  fontSize: 16,
+                  color: '#666',
+                  textAlign: 'left',
+                  top: 305,
+                  left: 38,
+                },
+              ]
+            }
+   
+      })
+      console.log('小程序码', that.data.qcode)
+    })
+  },
+    eventSave() {
+    wx.saveImageToPhotosAlbum({
+      filePath: this.shareImage,
+      success(res) {
+        wx.showToast({
+          title: '保存图片成功',
+          icon: 'success',
+          duration: 2000
+        })
+      }
+    })
+  },
+  eventGetImage(event) {
+    console.log("执行了吗")
+    console.log(event)
+    wx.hideLoading()
+    console.log("s99",event)
+    console.log("s88",event.mp.detail)
+    const { tempFilePath, errMsg } = event.mp.detail
+
+    if (errMsg === 'canvasdrawer:ok') {
+        this.shareImage=tempFilePath
+    }
+  }
 
 
   },
 
   created () {
    
+  },
+  onShow(){
+   this.onloads();
   },
   onLoad(){
       this.face=wx.getStorageSync('face');
@@ -209,7 +363,7 @@ height: 95rpx;line-height: 95rpx;border:1px solid #8e8e8e;}
 .model{width: 750rpx;}
 .model image{width:750rpx;height: 720rpx;}
 
-.modelbtn{width: 85%;line-height: 75rpx;background:#ff7903;color:#fff;margin: auto;text-align: center;margin-top: 80rpx;border-radius: 20rpx;}
+.modelbtn{width: 85%;line-height: 75rpx;background:#ff7903;color:#fff;margin: auto;text-align: center;margin-top: 60rpx;border-radius: 20rpx;}
 .modelcard{padding-top: 95rpx;}
 .modelbtntop{margin-top: 40rpx;}
 

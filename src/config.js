@@ -1,7 +1,10 @@
 const apimg="https://shop.guqinet.com/html/images/guqinzhen"
-const host='http://192.168.2.131:8090'
+const imgurl="https://shop.guqinet.com/shopimages/Zhaoshang/"
+//const host='http://192.168.2.131:8090'
+const host='https://manage.guqinet.com'
 const config={
     host,
-    apimg
+    apimg,
+    imgurl
 }
 export default config

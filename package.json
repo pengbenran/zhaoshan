@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "font-awesome": "^4.7.0",
     "mpvue": "^1.0.11",
     "mpvue-wxparse": "^0.6.5"
   },

@@ -5,7 +5,7 @@
         <image :src="example.picture"></image>
         <!-- <image :src="example.logo"></image> -->
       </div>
-      <div class="headright">微鑫云臻</div>     
+      <div class="headright">{{example.name}}</div>     
      </div>
       
       <div>

@@ -1,35 +1,48 @@
 <template>
   <div class="intro_root">
-    <div class="intro_img">
-      <image src="/static/images/company.jpg" alt=""/>
-    </div>
-    <div class="content">
-      上海谷琴电子科技有限公司是一家集设计、研发、生产、销售为一体的新型互联网公司。
-      公司于2014年成立，我们有专业的销售和技术团队，我们始终为客户提供好的产品和技术支持、健全的售后服务，
-      推出适应市场需求的硬件及软件产品，如果您对我公司的产品服务有兴趣，期待您的来电咨询。
-    </div>
+    <div class="top"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> {{company.movieName}}</div>
+     <div class="info">
+        <wxParse :content="article" @preview="preview" @navigate="navigate" />  
+     </div>
   </div>
 </template>
 
 <script>
+import config from '../../config'
+import request from '../../utils/request'
+import wxParse from 'mpvue-wxparse'
 
 export default {
   data () {
     return {
-     
+     imageId:0,
+     company:[],
+     article:''
     }
   },
 
   components: {
-    
+    wxParse
   },
 
   methods: {
-    
-  },
-
-  created () {
+   async onloads(){
+     let that=this;
+     const res= await request.moregets('/api/investment/companyIntroduce',{
+       id:that.imageId
+     })
+     console.log("信息",res)
+     that.article=res.company.imageUrl;  
+     that.company=res.company;
+   }
    
+  },
+  onLoad(options){
+   let that=this;
+   that.imageId=options.id;
+   
+   //加载初始化数据
+   that.onloads();
   },
   onShareAppMessage: function () {
     return {
@@ -42,10 +55,12 @@ export default {
 </script>
 
 <style scoped>
+@import url("~mpvue-wxparse/src/wxParse.css");
 image{
   width: 100%;
   height: 100%;
   display: block;
 }
 
+.top{line-height: 110rpx;font-weight: 200;font-size: 34rpx;border-bottom: 4px solid #f5f5f5;padding: 0 15rpx;}
 </style>

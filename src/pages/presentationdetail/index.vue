@@ -53,6 +53,8 @@ export default {
 </script>
 
 <style scoped>
+@import url("~mpvue-wxparse/src/wxParse.css");
+
 image{
   width: 100%;
   height: 100%;

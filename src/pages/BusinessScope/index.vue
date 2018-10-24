@@ -1,11 +1,16 @@
 <template>
   <div class="scope_root">
-    <div class="headerimg"><img :src="headerimg"></div>
-     <div class="cominfo">
-        上海谷琴电子科技有限公司是一家集设计、研发、生产、销售为一体的新型互联网公司。公司于2014年成立，
-        我们有专业的销售和技术团队，我们始终为客户提供好的产品和技术支持，健全的售后服务，推出适应市场
-        需求的硬件及软件产品，如果您对我们公司的产品有兴趣，期待您的来电咨询。
+    
+    <swiper class="swimg" indicator-dots='true' autoplay='true'>
+          <swiper-item v-for="(item,index) in imglist" :index='index' :key='item'><img :src="item.imageUrl"></swiper-item>
+    </swiper>
 
+     <div class="cominfo">
+      <ul class="con_ul">    
+        <li v-for="(item,index) in list" :index='index' :key="item" @click="toinfo(item.imageId,item.movieName)">
+          <span>{{item.movieName}}</span><i class="fa fa-sort-asc" aria-hidden="true"></i>  
+        </li>
+      </ul>
      </div>
   </div>
 </template>
@@ -21,7 +26,9 @@ export default {
       'https://shop.guqinet.com/html/images/zs/banner1.jpg',
       'https://shop.guqinet.com/html/images/zs/banner2.jpg'],
         imageWidth:'',
-        headerimg:config.imgurl+'commply.png'
+        headerimg:config.imgurl+'commply.png',
+        list:[],
+        imglist:[]
       };
   },
 
@@ -31,17 +38,37 @@ export default {
     var imageWidth=(wx.getSystemInfoSync().windowWidth-20)/2+"px";
     that.imageWidth=imageWidth;
     
-    
+       that.onloads();
   },
   methods: {
     jumpcompany:function(){
       wx.navigateTo({
         url:'../companydetail/main'
       });
+    },
+    
+    //加载初始化数据
+    async onloads(){
+      let that=this;
+      const res= await request.moregets('/api/investment/companyPicture')
+      console.log("轮播图",res)
+      that.imglist=res.pictures;
+      const info= await request.moregets('/api/investment/companyIntroduces')
+      console.log("简介",info.pictures)
+      that.list=info.pictures;
+    },
+    toinfo(id,name){
+      console.log(id,name);
+      if(name=='联系我们'){
+        wx.navigateTo({ url: '../lianxi/main?id='+id });
+      }else{
+        wx.navigateTo({ url: '../companydetail/main?id='+id });
+      }
+     
     }
   },
 
-  created() {},
+
   onShareAppMessage: function() {
     return {
       title: "微鑫云开发招商",
@@ -58,8 +85,9 @@ image {
   height: 100%;
   display: block;
 }
+.scope_root{background: #e7e7e7;min-height: 100vh;}
 .headerimg{height: 430rpx;}
-.cominfo{padding: 20rpx;font-weight: 100;font-size: 32rpx;text-align: justify;color: #666;line-height: 48rpx;}
+.cominfo{font-weight: 100;font-size: 32rpx;text-align: justify;color: #666;line-height: 48rpx;}
 #swiper{
 height:180px;
 }
@@ -95,4 +123,12 @@ flex-wrap: wrap;
   padding-left: 20rpx;
   box-sizing: border-box;
 }
+
+.swimg{height: 390rpx; }
+
+.con_ul{padding:0 10rpx;}
+.con_ul li{display: flex;justify-content: space-between;align-items: center;margin-top: 12rpx;line-height: 140rpx;padding: 0 25rpx;background: #fff;}
+.con_ul li i{font-size: 42rpx;transform: rotate(90deg);}
+.con_ul li span{color: #000;}
+.con_ul li:nth-child(1){border-top-left-radius:15rpx;border-top-right-radius:15rpx; }
 </style>

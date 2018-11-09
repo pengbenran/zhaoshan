@@ -30,12 +30,22 @@
     <!--item end-->
   </div>
 
+<div class="pinList">
+  <div class="item">
+    <div class="item-left"></div>
+    <div class="item-right"></div>
+  </div>
+</div>
+
+<div class="btnwrp">
 <div class='warpbtn'>
   <button class='btn' open-type='share' v-if="!boxbool">给好友递名片</button>
 </div>
-
+    
 <div class='haibao' @click='shenImg'>
-  <div class='haibaobtn' @click="eventDraw" v-if="!boxbool">生成海报</div>
+  <!-- <div class='haibaobtn' @click="eventDraw" v-if="!boxbool">生成海报</div> -->
+<div class='haibaobtn' @click="toyixia" v-if="!boxbool">生成海报</div>
+</div>
 </div>
 </div>
 
@@ -50,6 +60,10 @@
   </div>
 </div>
 <!-- <canvas canvas-id="shareCanvas" style="width:600px;height:900px"></canvas> -->
+  
+ 
+
+
   </div>
 </template>
 
@@ -90,12 +104,17 @@ export default {
 
             //发送名片给好友
         onShareAppMessage: function () {
+          if(!this.boxbool){
             let that=this;
             console.log('名片分享')
             let memberId = wx.getStorageSync('memberId');
             return {
             path: '/pages/cardinfo/main?memberId=' + memberId + '&cardid=' + that.userinfo.cardid,
             }
+          }else{
+            request.tip('你还没有设置名片','loading')
+          }
+           
         },
 
 
@@ -116,9 +135,23 @@ export default {
                     that.list[0].num=res.CardDate.clicks, 
                     that.list[1].num=res.CardDate.praise,
                     that.list[2].num=res.CardDate.attention,
+
+                    //设置名片缓存
+                    wx.setStorageSync('CardDate',res.CardDate)
+               
                 console.log('获取用户数据',res.CardDate);
             }
             })
+        },
+
+       //跳转背景页
+        toyixia(){
+          if(!this.boxbool){
+             wx.navigateTo({ url: '../imgList/main' });
+          }else{
+            request.tip('你还没有提交信息','loading')
+          }
+       
         },
 
       //关闭海报
@@ -348,14 +381,14 @@ background: #f4f8fb;
 .item{display: flex;flex-direction: column;align-items: center;}
 .item text{font-size: 30rpx;font-weight: 100;color: #8e8e8e;margin-top: 10rpx;}
 .item image{width: 46rpx;height: 50rpx;}
-.warpbtn{text-align: center;position: absolute;bottom: 220rpx;width: 100%;left: 0}
-.warpbtn .btn{width: 90%;margin: auto;background: #ff7903;color: #fff;border-radius: 50rpx;
-height: 95rpx;line-height: 95rpx;
+.warpbtn .btn{margin: auto;background: #ff7903;color: #fff;border-radius: 50rpx;
+height: 80rpx;line-height: 80rpx;
 }
 
-.haibao{text-align: center;position: absolute;bottom: 100rpx;width: 100%;left: 0;}
-.haibaobtn{width: 90%;margin: auto;color: #8e8e8e;border-radius: 50rpx;
-height: 95rpx;line-height: 95rpx;border:1px solid #8e8e8e;}
+.btnwrp{width: 100%;margin-top: 90rpx;}
+.haibao,.warpbtn{text-align: center;width: 90%;margin:0 auto 30rpx;}
+.haibaobtn{margin: auto;color: #8e8e8e;border-radius: 50rpx;
+height: 80rpx;line-height: 80rpx;border:1px solid #8e8e8e;}
 
 /* 海报样式 */
 .canvas{z-index: 10;position: absolute;top: 0;left: 0;background: rgba(0, 0, 0, 0.600);height: 100vh;width: 750rpx;}

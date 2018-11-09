@@ -7,8 +7,9 @@
         </swiper-item>  
     </block> 
     </swiper>
+
     <div class="title">
-      基础功能
+      营销功能
     </div>
     <div class="item">
       <div class="itemlist" v-for="(item,index) in baseList" :key="key" :index="index">
@@ -18,8 +19,9 @@
         <div class="name">{{item.name}}</div>
       </div>
     </div>
+
     <div class="title">
-      营销功能
+      基础功能
     </div>
     <div class="item">
       <div class="itemlist" v-for="(item,index) in Marketinglist" :key="key" :index="index">
@@ -40,7 +42,7 @@
         <div class="name">{{item.name}}</div>
       </div>
     </div>
- <!--    <div class="company">
+ <!--<div class="company">
       <span class="line"></span>
       <span class="company_title">公司地址</span>  
     </div>
@@ -89,34 +91,44 @@ export default {
       ImgList:[
       {urlImg:'https://shop.guqinet.com/html/images/zs/7.jpg'},
       {urlImg:'https://shop.guqinet.com/html/images/zs/9.jpg'},
-      {urlImg:'https://shop.guqinet.com/html/images/zs/10.jpg'}],
-
+      {urlImg:'https://shop.guqinet.com/html/images/zs/10.jpg'}
+        ],
       banner:[],
       baseList:[
-      {itemImg: config.imgurl+'yuyue.png',name:"预约",jumpUrl:''},
-      {itemImg: config.imgurl+'youhuijuan.png',name:"优惠券",jumpUrl:''},
-      {itemImg: config.imgurl+'jifen.png',name:"积分",jumpUrl:''},
-      {itemImg: config.imgurl+'huiyuanka.png',name:"会员卡",jumpUrl:''},
-      {itemImg: config.imgurl+'hongbao.png',name:"红包",jumpUrl:''},
-      {itemImg: config.imgurl+'xianshi.png',name:"限时折扣",jumpUrl:''},
-      {itemImg: config.imgurl+'pintuan.png',name:"拼团",jumpUrl:''},
-      {itemImg: config.imgurl+'kanjia.png',name:"砍价",jumpUrl:''},
-      {itemImg: config.imgurl+'weifenxiao.png',name:"微分销",jumpUrl:''},
-      {itemImg: config.imgurl+'haibao.png',name:"海报",jumpUrl:''},
+        {itemImg: config.imgurl+'yuyue.png',name:"预约",jumpUrl:''},
+        {itemImg: config.imgurl+'youhuijuan.png',name:"优惠券",jumpUrl:''},
+        {itemImg: config.imgurl+'jifen.png',name:"积分",jumpUrl:''},
+        {itemImg: config.imgurl+'huiyuanka.png',name:"会员卡",jumpUrl:''},
+        {itemImg: config.imgurl+'hongbao.png',name:"红包",jumpUrl:''},
+        {itemImg: config.imgurl+'xianshi.png',name:"限时折扣",jumpUrl:''},
+        {itemImg: config.imgurl+'pintuan.png',name:"拼团",jumpUrl:''},
+        {itemImg: config.imgurl+'kanjia.png',name:"砍价",jumpUrl:''},
+        {itemImg: config.imgurl+'weifenxiao.png',name:"微分销",jumpUrl:''},
+        {itemImg: config.imgurl+'haibao.png',name:"海报",jumpUrl:''},
+        {itemImg: config.imgurl+'cun.png',name:"储值",jumpUrl:''},
+        {itemImg: config.imgurl+'cuxiao.png',name:"促销",jumpUrl:''},
+        {itemImg: config.imgurl+'shop.png',name:"积分商城",jumpUrl:''},
+        {itemImg: config.imgurl+'luntan.png',name:"论坛",jumpUrl:''},
+        {itemImg: config.imgurl+'baoming.png',name:"预约报名",jumpUrl:''},
       ],
       Marketinglist:[
-      {itemImg: config.imgurl+'dizhi.png',name:"地图",jumpUrl:''},
-      {itemImg: config.imgurl+'fenxiang.png',name:"分享",jumpUrl:''},
-      {itemImg: config.imgurl+'kefu.png',name:"客服",jumpUrl:''},
-      {itemImg: config.imgurl+'shipin.png',name:"视频",jumpUrl:''},
-      {itemImg: config.imgurl+'zixun.png',name:"图文介绍",jumpUrl:''},
-      {itemImg: config.imgurl+'guanggao.png',name:"广告",jumpUrl:''},
-      {itemImg: config.imgurl+'yinpin.png',name:"语音",jumpUrl:''},
-      {itemImg: config.imgurl+'zhao.png',name:"招商",jumpUrl:''},
-      {itemImg: config.imgurl+'shangjia.png',name:"商家专区",jumpUrl:''},
-      {itemImg: config.imgurl+'ma.png',name:"一码两用",jumpUrl:''},
+        {itemImg: config.imgurl+'dizhi.png',name:"地图",jumpUrl:''},
+        {itemImg: config.imgurl+'fenxiang.png',name:"分享",jumpUrl:''},
+        {itemImg: config.imgurl+'kefu.png',name:"客服",jumpUrl:''},
+        {itemImg: config.imgurl+'shipin.png',name:"视频",jumpUrl:''},
+        {itemImg: config.imgurl+'zixun.png',name:"图文介绍",jumpUrl:''},
+        {itemImg: config.imgurl+'guanggao.png',name:"广告",jumpUrl:''},
+        {itemImg: config.imgurl+'yinpin.png',name:"语音",jumpUrl:''},
+        {itemImg: config.imgurl+'zhao.png',name:"招商",jumpUrl:''},
+        {itemImg: config.imgurl+'shangjia.png',name:"商家专区",jumpUrl:''},
+        {itemImg: config.imgurl+'ma.png',name:"一码两用",jumpUrl:''},
+        {itemImg: config.imgurl+'dingdan.png',name:"订单",jumpUrl:''},
+        {itemImg: config.imgurl+'gonggao.png',name:"公告",jumpUrl:''},
+        {itemImg: config.imgurl+'yima.png',name:"一品一码",jumpUrl:''},
+        {itemImg: config.imgurl+'zhixun.png',name:"资讯",jumpUrl:''},
+        {itemImg: config.imgurl+'dpgl.png',name:"店铺管理",jumpUrl:''},
       ],
-      excellentItem:[]
+       excellentItem:[]
 
     }
   },
@@ -264,7 +276,7 @@ image{
   display: block; 
 }
 #swiper{
-height:180px;
+height:190px;
 }
 .item{
 width: 100%;
@@ -318,5 +330,7 @@ text-align: center;
 .box{display: flex;justify-content: center;flex-direction: column;text-align: center;
   background: #fff;width: 65%;height: 280rpx;border-radius: 20rpx;box-shadow: 0 0 10px #fff;}
 .modelbtn{width: 75%;background: #1aad19;height: 68rpx;line-height: 68rpx;font-size: 34rpx;color: #fff;}
+
+
 
 </style>

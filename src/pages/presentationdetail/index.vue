@@ -29,7 +29,7 @@ export default {
   },
  onLoad:function(option){
   var that=this;
-
+  that.article='';
   that.onloads(option);
  },
   methods: {

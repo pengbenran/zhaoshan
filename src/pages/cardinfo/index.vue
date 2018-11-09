@@ -32,9 +32,10 @@
      </div>
 </div>
 
-<div class='infobtn' @click='infonext'>
-   <text>返回首页</text>
-</div>
+  <div class="btnwarp">
+    <div class='infobtn' @click='infonext'><text>返回首页</text></div>
+    <div class="infobtn" @click="shouji"><text>一键存入手机号</text></div>
+  </div>
   </div>
 </template>
 
@@ -151,6 +152,8 @@ export default {
     })
   },
 
+ 
+
   infonext:function(){
     console.log("666")
     wx.switchTab({
@@ -166,6 +169,30 @@ export default {
   //   })
   // }
 
+ shouji(){
+    
+    let that=this;
+    wx.showActionSheet({
+      itemList: ['呼叫', '添加联系人'],
+      success (res) {
+        console.log(res.tapIndex)
+        if(res.tapIndex==0){
+          wx.makePhoneCall({ phoneNumber: that.userinfo.p1});
+        }else if(res.tapIndex==1){
+          wx.addPhoneContact({
+              firstName:that.userinfo.cardname,
+              mobilePhoneNumber:that.userinfo.p1,
+              addressCity:that.userinfo.region,
+              organization:that.userinfo.companys,
+              title:that.userinfo.jobs
+          })
+        }
+      }
+    })
+  },
+
+
+
   },
 
  //发送名片给好友
@@ -176,6 +203,10 @@ export default {
       path: '/pages/cardinfo/cardinfo?memberId=' + this.data.memberIds
     }
   },
+  
+  //添加号码到通讯录
+ 
+
   created () {
    
   },
@@ -254,15 +285,19 @@ height: 80rpx;width: 80rpx;border-radius: 50%;
 .info text{color: #ff7903;}
 
 
-.btnlist{display: flex;justify-content: space-around;margin-top: 46rpx;}
+.btnlist{display: flex;justify-content: space-around;margin-top: 46rpx;width: 90%;}
 .btnitem{width: 150rpx;font-size: 28rpx;padding: 5rpx 0;color:#8e8e8e;border-radius: 35rpx;text-align: center;border:1px solid #8e8e8e;margin: 0; line-height: 1.5;}
 
 .btnitem{background: #fff;}
 .zanbtn:active{border:1px solid #ff7903;color: #ff7903;background: #fff;}
 
-.infobtn{margin-top: 65rpx;width:90%;margin:auto;background:#ff7903;color:#fff;border-radius:50rpx;height:85rpx;
-line-height:85rpx;text-align: center;}
+.infobtn{margin-top: 75rpx;width:90%;margin:auto;background:#ff7903;color:#fff;border-radius:50rpx;height:70rpx;
+line-height:70rpx;text-align: center;}
+.infobtn text{font-size: 34rpx;}
 
 .actives{border:1px solid #ff7903;color: #ff7903;background: #fff;}
+
+.btnwarp{display: flex;justify-content: space-between;width: 90%;margin: auto;}
+.btnwarp div{width: 48%;}
 
 </style>

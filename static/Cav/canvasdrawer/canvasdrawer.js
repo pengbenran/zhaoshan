@@ -28,7 +28,7 @@ Component({
     showCanvas: false,
 
     width: 375,
-    height: 360,
+    height: 1000,
 
     index: 0,
     imageList: [],

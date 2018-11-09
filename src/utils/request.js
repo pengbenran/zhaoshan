@@ -114,17 +114,30 @@ const gets = (url, data) => {
     })
   }
   
-  const getImageInfo=(url)=>{    //  图片缓存本地的方法
-    return new Promise(function (resolve, reject) {
+ 
+  //缓存图片
+  function locaImg(v){
+    return new Promise(function (resolve, reject) { 
       wx.getImageInfo({   //  小程序获取图片信息API
-        src: url,
+        src: v,
         success: function (res) {
-          resolve(res.path)
-        },
-        fail(err) {
-          console.log(err)
+          // locaArr.push(res.path)
+          resolve(res.path) 
         }
       })
+    })
+  }
+  async function getlocaImg(arr){
+       let locaArr=[];
+      for(var i=0;i<arr.length;i++){
+        locaArr.push(await locaImg(arr[i]))
+      }
+      return locaArr
+  }
+
+  const getImageInfo=(arrimg)=>{    //  图片缓存本地的方法
+    return new Promise(function (resolve, reject) { 
+      resolve(getlocaImg(arrimg))
     })
   }
   

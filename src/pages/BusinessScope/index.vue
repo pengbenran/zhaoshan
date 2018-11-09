@@ -22,13 +22,14 @@ import request from '../../utils/request'
 export default {
   data() {
     return {
-    banner:['https://shop.guqinet.com/html/images/zs/banner.jpg',
+    banner:[
+      'https://shop.guqinet.com/html/images/zs/banner.jpg',
       'https://shop.guqinet.com/html/images/zs/banner1.jpg',
       'https://shop.guqinet.com/html/images/zs/banner2.jpg'],
-        imageWidth:'',
-        headerimg:config.imgurl+'commply.png',
-        list:[],
-        imglist:[]
+       imageWidth:'',
+       headerimg:config.imgurl+'commply.png',
+       list:[],
+       imglist:[]
       };
   },
 
